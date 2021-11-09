@@ -1,5 +1,7 @@
 import org.junit.Rule;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.sql2o.Connection;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -7,6 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class SightingTest {
     @Rule
     public DatabaseRule database = new DatabaseRule();
+
+
 
     @Test
     public void Sighting_instantiatesCorrectly_true(){
@@ -17,7 +21,7 @@ class SightingTest {
     @Test
     public void Sighting_instantiatesCorrectlyWithData(){
         Sighting sighting = newSighting();
-        assertEquals("Chalie,false,Zone A", sighting.getRangerName()+","+sighting.isEndangeredAnimal() +","+ sighting.getLocation());
+        assertEquals("Chalie,false,Zone A", sighting.getRangerName()+","+sighting.isEndangered() +","+ sighting.getLocation());
     }
     @Test
     public void equals_returnsTrueIfAllFieldsAreTheSame(){
@@ -30,7 +34,7 @@ class SightingTest {
     public void save_insertsObjectIntoDatabase_Sighting(){
         Sighting sighting= newSighting();
         sighting.saveSighting();
-        assertTrue(sighting.getAllSightings().get(0).equals(sighting));
+        assertEquals(Sighting.getAllSightings().get(0).getRangerName(), sighting.getRangerName());
     }
 
     @Test
@@ -39,16 +43,16 @@ class SightingTest {
         sighting.saveSighting();
         Sighting sighting1 = new Sighting("Wizz",false,"Zone D");
         sighting1.saveSighting();
-        assertEquals(true,Sighting.getAllSightings().get(1).equals(sighting));
-        assertEquals(true,Sighting.getAllSightings().get(2).equals(sighting1));
+        assertEquals(Sighting.getAllSightings().get(0).getRangerName(), sighting.getRangerName());
+        assertEquals(Sighting.getAllSightings().get(1).getRangerName(), sighting1.getRangerName());
     }
 
     @Test
     public void saveSightingsAssignsIdToObject(){
         Sighting sighting = newSighting();
         sighting.saveSighting();
-        Sighting savedSighting = Sighting.getAllSightings().get(1);
-        assertEquals(savedSighting.getSightingId(),sighting.getSightingId());
+        Sighting savedSighting = Sighting.getAllSightings().get(0);
+        assertEquals(savedSighting.getId(),sighting.getId());
     }
 
     @Test
@@ -57,8 +61,16 @@ class SightingTest {
         sighting.saveSighting();
         Sighting sighting1 = new Sighting("Wizz",false,"Zone D");
         sighting1.saveSighting();
-        assertEquals(Sighting.findSightingById(sighting1.getSightingId()),sighting1);
+        assertEquals(Sighting.findSightingById(sighting1.getId()),sighting1);
     }
+
+    @AfterEach
+    public void tearDown(){
+        try (Connection conn = DB.sql2o.open()){
+            String deleteSightingSQuery = "DELETE FROM sightings *";
+            conn.createQuery(deleteSightingSQuery).executeUpdate();
+        }
+        }
 
     //helper method
     public Sighting newSighting(){
