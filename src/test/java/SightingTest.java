@@ -34,7 +34,7 @@ class SightingTest {
     public void save_insertsObjectIntoDatabase_Sighting(){
         Sighting sighting= newSighting();
         sighting.saveSighting();
-        assertEquals(Sighting.getAllSightings().get(0).getRangerName(), sighting.getRangerName());
+        assertEquals(Sighting.getAllSightings().get(0), sighting);
     }
 
     @Test
@@ -43,8 +43,8 @@ class SightingTest {
         sighting.saveSighting();
         Sighting sighting1 = new Sighting("Wizz",false,"Zone D");
         sighting1.saveSighting();
-        assertEquals(Sighting.getAllSightings().get(0).getRangerName(), sighting.getRangerName());
-        assertEquals(Sighting.getAllSightings().get(1).getRangerName(), sighting1.getRangerName());
+        assertEquals(Sighting.getAllSightings().get(0), sighting);
+        assertEquals(Sighting.getAllSightings().get(1), sighting1);
     }
 
     @Test
