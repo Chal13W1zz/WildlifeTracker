@@ -1,5 +1,6 @@
 import org.sql2o.Connection;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 
@@ -7,7 +8,8 @@ public class Sighting {
     private String rangerName;
     private boolean endangered;
     private String location;
-    private int id;
+    private static int id;
+    private Timestamp sightingTime;
 
     public Sighting(String rangerName,boolean endangered, String location){
         this.rangerName = rangerName;
@@ -60,9 +62,13 @@ public class Sighting {
         this.id = id;
     }
 
+    public Timestamp getSightingTime() {
+        return sightingTime;
+    }
+
     public void saveSighting() {
         try(Connection conn = DB.sql2o.open()){
-            String sql = "INSERT INTO sightings (rangerName,endangered,location) VALUES (:rangerName, :endangered, :location)";
+            String sql = "INSERT INTO sightings (rangerName,endangered,location, sightingTime) VALUES (:rangerName, :endangered, :location, now())";
             this.id = (int)  conn.createQuery(sql,true)
                     .addParameter("rangerName", this.rangerName)
                     .addParameter("endangered", this.endangered)
@@ -85,6 +91,15 @@ public class Sighting {
             return conn.createQuery(sql)
                     .addParameter("id",id)
                     .executeAndFetchFirst(Sighting.class);
+        }
+    }
+
+    public static List<Animal> getAnimalsInSighting() {
+        try(Connection conn = DB.sql2o.open()){
+            String sql = "SELECT * FROM animals WHERE sightingId = :id";
+            return conn.createQuery(sql)
+                    .addParameter("id",id)
+                    .executeAndFetch(Animal.class);
         }
     }
 
