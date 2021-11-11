@@ -1,9 +1,13 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'maven-publish'
 }
 
 group 'com.chalie.wt'
 version '1.0-Beta'
+
+mainClassName = "App"
 
 repositories {
     mavenCentral()
@@ -17,9 +21,22 @@ dependencies {
     implementation 'org.slf4j:slf4j-simple:1.7.32'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.2'
     implementation group: 'postgresql', name: 'postgresql', version: '9.0-801.jdbc4'
+    implementation 'com.sparkjava:spark-core:2.9.3'
+    implementation 'com.sparkjava:spark-template-handlebars:2.7.1'
 
 }
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            group 'com.chalie.wt'
+            version '1.0-Beta'
+
+            from components.java
+        }
+    }
 }
