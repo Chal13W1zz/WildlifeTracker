@@ -7,10 +7,33 @@
     <!-- that they should prefer consuming it instead. -->
     <!-- do_not_remove: published-with-gradle-metadata -->
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.chalie.wt</groupId>
     <artifactId>WildlifeTracker</artifactId>
     <version>1.0-Beta</version>
-    <dependencies>
+
+<dependencies>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+
+    </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>5.8.1</version>
+        <scope>test</scope>
+
+    </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.8.1</version>
+            <scope>test</scope>
+
+        </dependency>
         <dependency>
             <groupId>org.sql2o</groupId>
             <artifactId>sql2o</artifactId>
@@ -18,21 +41,9 @@
 
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.32</version>
-
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.2.2</version>
-
-        </dependency>
-        <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.0-801.jdbc4</version>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
 
         </dependency>
         <dependency>
@@ -45,6 +56,24 @@
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-template-handlebars</artifactId>
             <version>2.7.1</version>
+
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.32</version>
+
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.24.jre7</version>
+
+        </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.3-1102.jdbc41</version>
 
         </dependency>
     </dependencies>
