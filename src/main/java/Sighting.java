@@ -66,9 +66,18 @@ public class Sighting {
         return sightingTime;
     }
 
+    public static void getDrivers(){
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void saveSighting() {
+        getDrivers();
         try(Connection conn = DB.sql2o.open()){
-            String sql = "INSERT INTO sightings (rangerName,endangered,location, sightingTime) VALUES (:rangerName, :endangered, :location, now())";
+            String sql = "INSERT INTO sightings (rangerName,endangered,location, sightingTime) VALUES (:rangerName, :endangered, :location, NOW())";
             this.id = (int)  conn.createQuery(sql,true)
                     .addParameter("rangerName", this.rangerName)
                     .addParameter("endangered", this.endangered)
@@ -79,6 +88,7 @@ public class Sighting {
     }
 
     public static List<Sighting> getAllSightings() {
+        getDrivers();
         String sql = "SELECT * FROM sightings";
         try(Connection conn = DB.sql2o.open()){
             return conn.createQuery(sql).executeAndFetch(Sighting.class);
@@ -86,6 +96,7 @@ public class Sighting {
     }
 
     public static Sighting findSightingById(int id) {
+        getDrivers();
         String sql = "SELECT * FROM sightings WHERE id = :id";
         try(Connection conn = DB.sql2o.open()){
             return conn.createQuery(sql)
@@ -95,6 +106,7 @@ public class Sighting {
     }
 
     public static List<Animal> getAnimalsInSighting() {
+        getDrivers();
         try(Connection conn = DB.sql2o.open()){
             String sql = "SELECT * FROM animals WHERE sightingId = :id";
             return conn.createQuery(sql)
