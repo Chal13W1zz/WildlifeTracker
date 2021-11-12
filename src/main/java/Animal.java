@@ -78,7 +78,16 @@ public class Animal {
         this.id = id;
     }
 
+    public static void getDrivers(){
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void saveAnimal() {
+        getDrivers();
         try(Connection conn = DB.sql2o.open()){
             String sql = "INSERT INTO animals (animalName,health,animalAge,sightingId) VALUES (:animalName, :health, :animalAge, :sightingId)";
             this.id = (int) conn.createQuery(sql, true)
@@ -93,6 +102,7 @@ public class Animal {
     }
 
     public static List<Animal> getAllAnimals() {
+        getDrivers();
         try(Connection conn = DB.sql2o.open()){
             String sql = "SELECT * FROM animals";
             return conn.createQuery(sql)
@@ -101,6 +111,7 @@ public class Animal {
     }
 
     public static Animal findAnimalById(int id) {
+        getDrivers();
         try(Connection conn = DB.sql2o.open()){
             String sql = "SELECT * FROM animals WHERE   id=:id";
             return conn.createQuery(sql)
@@ -108,5 +119,7 @@ public class Animal {
                     .executeAndFetchFirst(Animal.class);
         }
     }
+
+
 
 }
