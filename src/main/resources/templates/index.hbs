@@ -1,4 +1,12 @@
 {{#partial "content"}}
+
+    <div class="row d-flex justify-content-center">
+        <div class="col-1">
+            <a href="/sighting/new" class="btn btn-primary text-center">+ Sighting</a>
+        </div>
+        </div>
+
+
 <div class="container">
     {{#if allsightings}}
         {{#each allsightings}}
@@ -11,11 +19,11 @@
 
                     {{#each animalsInSighting}}
 
-                        <p class="card-text">Animal Name:  {{animalName}}</p>
+                        <p class="card-text">Animal Name:  {{animalName}} </p>
                         <p>Animal Age: {{animalAge}}</p>
                         <p>Animal Health:  {{health}}</p>
                     {{/each}}
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+<!--                    <a href="/animal/{{id}}" class="btn btn-primary">View Animal</a>-->
                 </div>
                 <div class="card-footer text-muted">
                     Sighted at {{sightingTime}}
@@ -26,8 +34,12 @@
         {{/each}}
 
     {{else}}
-        <p>Record a new sighting.</p>
-        <a href="/sighting/new">Record</a>
+        <p class="text-center">Record a new sighting.</p>
+        <div class="row d-flex justify-content-center">
+            <div class="col-1">
+                <a class="text-center btn btn-outline-primary" href="/sighting/new">Record Sighting</a>
+            </div>
+        </div>
     {{/if}}
 </div>
 {{/partial}}
